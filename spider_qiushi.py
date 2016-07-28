@@ -19,9 +19,21 @@ for item in content:
     if item.string is not None:
         try:
             with codecs.open('./qiushi.baike', 'a', 'utf-8') as f:
-                line = str(count) + '. ' + item.string.strip() + '\n'
+                line = '\n' + str(count) + '. '
+                line += item.string.strip() + '\n'
                 f.write(line)
                 count += 1
         except IOError, e:
             print '无法找到qiushi.baike文件'
             print e
+    else:
+        line = '\n' + str(count) + '. '
+        for tag in item.contents:
+            if hasattr(tag, 'contents'):
+                pass
+            else:
+                line += tag.strip()
+                line += '\n'
+        with codecs.open('./qiushi.baike', 'a', 'utf-8') as f:
+            f.write(line)
+            count += 1
