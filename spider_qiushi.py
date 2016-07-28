@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import time
 import codecs
 import requests
 from bs4 import BeautifulSoup
@@ -9,9 +10,17 @@ r = requests.get(url)
 c = BeautifulSoup(r.content, 'html.parser')
 content = c.find_all('div', class_='content')
 
-#  保存源网页
+# 保存源网页
 with codecs.open('./qiushi.html', 'w', 'utf-8') as f:
     f.write(c.prettify())
+
+# 添加时间信息
+with codecs.open('./qiushi.baike', 'a', 'utf-8') as f:
+    now = time.strftime('%Y-%m-%d---%H-%M-%S', 
+                        time.localtime(time.time()))
+    f.write('\n#######')
+    f.write(now)
+    f.write('#######\n')
 
 # 输出糗事详情
 count = 1
@@ -25,3 +34,16 @@ for item in content:
         except IOError, e:
             print '无法找到qiushi.baike文件'
             print e
+#    else:
+#        line = ''
+#        for it in item.children:
+#            line = line + it.string.strip() + '\n'
+#        try:
+#            with codecs.open('/qiushi.baike', 'a', 'utf-8') as f:
+#                line = str(count) + line
+#                f.write(line)
+#                count += 1
+#        except IOError, e:
+#            print '无法找到qiushi.baike文件'
+#            print e
+#
