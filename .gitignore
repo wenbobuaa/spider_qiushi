@@ -2,3 +2,7 @@
 *.html
 *.baike
 *.swp
+*.pyc
+
+# 配置文件
+settings.py
